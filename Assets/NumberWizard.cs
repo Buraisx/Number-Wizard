@@ -9,43 +9,39 @@ public class NumberWizard : MonoBehaviour
     [SerializeField] int min = 1;
     [SerializeField] TextMeshProUGUI guessText; 
     int guess = 500;
+    int prevGuess;
 
     // Start is called before the first frame update
     // Start runs on initialization
     void Start()
     {
-        StartGame();   
+        NextGuess();
     }
 
-    void StartGame()
+    public void OnPressHigher()
     {
-        // Set guess at the start of the game
-        guess = (max + min) / 2;
-        // Convert guess variable to string for TMP text
-        if (guessText == null)
-        {
-            return;
-        }
-        guessText.text = guess.ToString();
-        max += 1;
-    }
-
-    public void onPressHigher()
-    {
-        min = guess;
+        min = guess + 1;
         NextGuess();
     }
 
 
-    public void onPressLower()
+    public void OnPressLower()
     {
-        max = guess;
+        max = guess - 1;
         NextGuess();
     }
 
     void NextGuess()
     {
-        guess = (max + min) / 2;
+        guess = Random.Range(min, max + 1);
+   
+        if (guessText == null)
+        {
+            return;
+        }
+        // Convert guess variable to string for TMP text
         guessText.text = guess.ToString();
+
+        prevGuess = guess;
     }
 }
